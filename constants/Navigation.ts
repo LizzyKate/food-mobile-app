@@ -1,6 +1,6 @@
 export type RootParamList = {
   "(auth)": undefined;
-  "signin-options/index": undefined;
-  "signin/index": undefined;
+  "signup-options/index": undefined;
+  "signup/index": undefined;
   "detail/index": undefined;
 };

@@ -38,7 +38,7 @@ export default function SigninOptionsScreen() {
   });
   const navigation = useNavigation<NavigationProp<RootParamList>>();
   const handleNavigate = () => {
-    navigation.navigate("signin/index");
+    navigation.navigate("signup/index");
   };
   console.log(process.env.EXPO_IOS_CLIENT_ID);
   return (
