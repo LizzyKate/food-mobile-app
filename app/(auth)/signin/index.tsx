@@ -1,75 +1,92 @@
-import Button from "@/components/Button";
-import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { RootParamList } from "@/constants/Navigation";
+import React from "react";
+import * as Yup from "yup";
+import { Form } from "@/components/form";
+import { SafeAreaView, StyleSheet, TouchableOpacity, Text } from "react-native";
 
-export default function SigninScreen() {
-  const navigation = useNavigation<NavigationProp<RootParamList>>();
-  const handleNavigate = () => {
-    navigation.navigate("detail/index");
+export default function SignInScreen() {
+  const SignupSchema = Yup.object().shape({
+    userName: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("User Name Required"),
+    email: Yup.string().email("Invalid email").required("Email Required"),
+    password: Yup.string()
+      .min(8, "Password must be at least 8 characters")
+      .required("Password Required"),
+  });
+
+  const formFields = [
+    {
+      name: "username",
+      label: "Username",
+      placeholder: "Username",
+      keyboardType: "default" as const,
+    },
+    {
+      name: "email",
+      label: "Email",
+      placeholder: "Email",
+      keyboardType: "email-address" as const,
+      maxLength: 50,
+    },
+    {
+      name: "password",
+      label: "Password",
+      placeholder: "Password",
+      keyboardType: "default" as const,
+      secureTextEntry: true,
+    },
+  ];
+
+  const initialValues = {
+    username: "",
+    password: "",
+    email: "",
   };
+
+  const handleNavigation = () => {
+    console.log("Navigate to Sign in");
+  };
+
   return (
-    <View>
-      <Image
-        style={styles.image}
-        source={require("@/assets/images/Mask.png")}
+    <SafeAreaView style={styles.container}>
+      <Form
+        formFields={formFields}
+        initialValues={initialValues}
+        validationSchema={SignupSchema}
+        onSubmit={(values) => {
+          console.log(values);
+        }}
+        headerText="Sign up"
+        descriptionText="Create an account to get started"
+        buttonText="Sign up"
       />
-      <ScrollView>
-        <View style={styles.container}>
-          <Text style={styles.text}>Get your groceries with nectar</Text>
-          <Button
-            title="Sign in manually"
-            backgroundColor="#53B175"
-            onPress={() => handleNavigate()}
-            justify="center"
-          />
-          <Button
-            title="Continue with Google"
-            backgroundColor="#5383EC"
-            onPress={() => console.log("signup")}
-            justify="flex-start"
-            isIcon={true}
-            icon={<AntDesign name="google" size={24} color="white" />}
-            buttonStyle={styles.button}
-            textStyle={styles.buttonText}
-          />
-          <Button
-            title="Continue with Facebook"
-            backgroundColor="#3B5998"
-            onPress={() => console.log("signup")}
-            justify="flex-start"
-            isIcon={true}
-            icon={<AntDesign name="facebook-square" size={24} color="white" />}
-            buttonStyle={styles.button}
-            textStyle={styles.buttonText}
-          />
-        </View>
-      </ScrollView>
-    </View>
+
+      <TouchableOpacity style={styles.button} onPress={handleNavigation}>
+        <Text style={styles.instruction}>
+          Already have an account?{" "}
+          <Text style={styles.signInText}>Sign in</Text>
+        </Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  image: {
-    height: 500,
-  },
-  container: {
-    padding: 20,
-  },
-  text: {
-    fontSize: 24,
-    textAlign: "center",
-    fontFamily: "GilroySemiBold",
-    color: "#030303",
-    lineHeight: 35,
-    fontWeight: "600",
-    marginBottom: 40,
-  },
   button: {
     marginTop: 20,
   },
-  buttonText: {
-    marginLeft: 85,
+  instruction: {
+    fontSize: 14,
+    fontFamily: "GilroySemibold",
+    textAlign: "center",
+    color: "#030303",
+  },
+  signInText: {
+    color: "#53B175",
+  },
+  container: {
+    flex: 1,
+    padding: 16,
   },
 });

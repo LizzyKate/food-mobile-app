@@ -1,8 +1,10 @@
 import { StyleSheet, ViewStyle } from "react-native";
 
 export const createStyles = (
-  backgroundColor: string,
-  justify: ViewStyle["justifyContent"]
+  justify: ViewStyle["justifyContent"],
+  backgroundColor?: string,
+  marginTop?: number,
+  color?: string
 ) =>
   StyleSheet.create({
     button: {
@@ -12,9 +14,10 @@ export const createStyles = (
       padding: 16,
       borderRadius: 8,
       backgroundColor,
+      marginTop,
     },
     text: {
-      color: "#fff",
+      color,
       marginLeft: 8,
       textAlign: "center",
     },

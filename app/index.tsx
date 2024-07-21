@@ -29,6 +29,7 @@ export default function WelcomeScreen() {
           onPress={() => handleNavigate()}
           backgroundColor="#53B175"
           justify="center"
+          color="#fff"
         />
       </View>
     </ImageBackground>
